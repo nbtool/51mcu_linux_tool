@@ -1,0 +1,106 @@
+/*
+ * LTR390UV.h:
+ * Copyright (c) 2014-2022 Rtrobot. <admin@rtrobot.org>
+ *  <http://rtrobot.org>
+ ***********************************************************************
+ * use keil5 for arm.
+ */
+
+#ifndef _LTR390UV_H_
+#define _LTR390UV_H_
+
+#include <main.h>
+
+#define LTR390UV_I2CADDR 0x53
+
+// Addresses of the LTR390UV registers
+#define LTR390UV_REG_MAIN_CTRL 0x00
+#define LTR390UV_REG_ALS_UVS_MEAS_RATE 0x04
+#define LTR390UV_REG_ALS_UVS_GAIN 0x05
+#define LTR390UV_REG_PART_ID 0x06
+#define LTR390UV_REG_MAIN_STATUS 0x07
+#define LTR390UV_REG_ALS_DATA_0 0x0d
+#define LTR390UV_REG_ALS_DATA_1 0x0e
+#define LTR390UV_REG_ALS_DATA_2 0x0f
+#define LTR390UV_REG_UVS_DATA_0 0x10
+#define LTR390UV_REG_UVS_DATA_1 0x11
+#define LTR390UV_REG_UVS_DATA_2 0x12
+#define LTR390UV_REG_INT_CFG 0x19
+#define LTR390UV_REG_INT_PST 0x1a
+#define LTR390UV_REG_ALS_UVS_THRES_UP_0 0x21
+#define LTR390UV_REG_ALS_UVS_THRES_UP_1 0x22
+#define LTR390UV_REG_ALS_UVS_THRES_UP_2 0x23
+#define LTR390UV_REG_ALS_UVS_THRES_LOW_0 0x24
+#define LTR390UV_REG_ALS_UVS_THRES_LOW_1 0x25
+#define LTR390UV_REG_ALS_UVS_THRES_LOW_2 0x26
+
+// LTR-390 MAIN_CTRL
+#define LTR390UV_LOWPOWER_ENABLE 0xfd
+#define LTR390UV_LOWPOWER_DISABLE 0x02
+#define LTR390UV_MODE_ALS 0xf7
+#define LTR390UV_MODE_UVS 0x08
+
+// LTR-390 ALS/UVS measurement gain range
+#define LTR390UV_GAIN_RANGE_1 0x00
+#define LTR390UV_GAIN_RANGE_3 0x01
+#define LTR390UV_GAIN_RANGE_6 0x02
+#define LTR390UV_GAIN_RANGE_9 0x03
+#define LTR390UV_GAIN_RANGE_18 0x04
+
+// LTR-390 ALS/UVS  resolution
+#define LTR390UV_RESOLUTION_20BIT 0x00
+#define LTR390UV_RESOLUTION_19BIT 0x10
+#define LTR390UV_RESOLUTION_18BIT 0x20
+#define LTR390UV_RESOLUTION_17BIT 0x30
+#define LTR390UV_RESOLUTION_16BIT 0x40
+#define LTR390UV_RESOLUTION_13BIT 0x50
+
+// LTR-390 ALS/UVS measurement
+#define LTR390UV_MEASUREMENT_RATE_25MS 0x00
+#define LTR390UV_MEASUREMENT_RATE_50MS 0x01
+#define LTR390UV_MEASUREMENT_RATE_100MS 0x02
+#define LTR390UV_MEASUREMENT_RATE_200MS 0x03
+#define LTR390UV_MEASUREMENT_RATE_500MS 0x04
+#define LTR390UV_MEASUREMENT_RATE_1000MS 0x05
+#define LTR390UV_MEASUREMENT_RATE_2000MS 0x06
+
+// LTR-390 Interrupt Trigger Threshold Count
+#define LTR390UV_PST_EVERY 0x00
+#define LTR390UV_PST_CONSECUTIVE_2 0x10
+#define LTR390UV_PST_CONSECUTIVE_3 0x20
+#define LTR390UV_PST_CONSECUTIVE_4 0x30
+#define LTR390UV_PST_CONSECUTIVE_5 0x40
+#define LTR390UV_PST_CONSECUTIVE_6 0x50
+#define LTR390UV_PST_CONSECUTIVE_7 0x60
+#define LTR390UV_PST_CONSECUTIVE_8 0x70
+#define LTR390UV_PST_CONSECUTIVE_9 0x80
+#define LTR390UV_PST_CONSECUTIVE_10 0x90
+#define LTR390UV_PST_CONSECUTIVE_11 0xa0
+#define LTR390UV_PST_CONSECUTIVE_12 0xb0
+#define LTR390UV_PST_CONSECUTIVE_13 0xc0
+#define LTR390UV_PST_CONSECUTIVE_14 0xd0
+#define LTR390UV_PST_CONSECUTIVE_15 0xe0
+#define LTR390UV_PST_CONSECUTIVE_16 0xf0
+
+// LTR-390 Interrupt mode
+#define LTR390UV_INT_ALS 0x10
+#define LTR390UV_INT_UVS 0x30
+
+
+bool LTR390UV_Init(void);
+void LTR390UV_Reset(void);
+void LTR390UV_LowPower(bool enable);
+uint8_t LTR390UV_GetMode(void);
+void LTR390UV_SetMode(uint8_t mode);
+void LTR390UV_SetGain(uint8_t mode);
+uint8_t LTR390UV_GetGain(void);
+void LTR390UV_SetMeasurement(uint8_t mode);
+uint8_t LTR390UV_GetResolution(void);
+void LTR390UV_SetThresholds(uint32_t low, uint32_t up);
+void LTR390UV_SetInterrupt(bool enable,uint8_t mode,uint8_t count);
+bool LTR390UV_GetDataStatus(void);
+uint32_t LTR390UV_GetUVS(void);
+float LTR390UV_GetUVI(uint32_t uvs, float WFAC);
+uint32_t LTR390UV_GetALS(void);
+float LTR390UV_GetLUX(uint32_t als, float WFAC);
+#endif //_LTR390UV_H_
